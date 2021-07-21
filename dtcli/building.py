@@ -62,6 +62,36 @@ def _zip_extension(extension_dir_path, extension_zip_path):
         print("Wrote %s file" % extension_zip_path)
 
 
+def zip_files_to_upload(extension_zip_to_upload, extension_zip_dir_path):
+
+    if not os.path.exists(os.path.join(extension_zip_dir_path, EXTENSION_ZIP)):
+        print(f"File {EXTENSION_ZIP} does not exist. Failed to upload extension.")
+        return False
+
+    if not os.path.exists(os.path.join(extension_zip_dir_path, EXTENSION_ZIP_SIG)):
+        print(f"File {EXTENSION_ZIP_SIG} does not exist. Failed to upload extension.")
+        return False
+
+    try:
+        with zipfile.ZipFile(extension_zip_to_upload, "w") as zf:
+
+            for file_path in glob.glob(
+                    os.path.join(extension_zip_dir_path, f"*{EXTENSION_ZIP}*"), recursive=True
+            ):
+                if os.path.isdir(file_path):
+                    continue
+                rel_path = os.path.relpath(file_path, extension_zip_dir_path)
+                print("Adding file: %s as %s" % (file_path, rel_path))
+                zf.write(file_path, arcname=rel_path)
+
+    except Exception as e:
+        print(e)
+        raise
+
+    else:
+        print("Wrote %s file" % extension_zip_to_upload)
+
+
 def _package(
     extension_dir_path,
     target_dir_path,

@@ -237,6 +237,22 @@ def build(**kwargs):
     )
 
 
+@extension.command(
+    help="Uploads zipped and signed extension to the tenant"
+)
+@click.option(
+    "--target-directory",
+    default=DEFAULT_TARGET_PATH, show_default=True,
+    help="Directory from where extension package is loaded."
+         "Should have two files: 'extension.zip' and 'extension.zip.sig'",
+)
+def upload(**kwargs):
+    target_dir_path = kwargs["target_directory"]
+    extension_zip_to_upload = os.path.join(target_dir_path, EXTENSION_ZIP_UPLOAD)
+    building.zip_files_to_upload(extension_zip_to_upload, target_dir_path)
+
+
+
 @extension_dev.command(
     help="comand packs python package as a datasource. It uses pip to download all dependencies and create whl files"
 )

@@ -18,6 +18,7 @@ import os.path
 EXTENSION_YAML = "extension.yaml"
 EXTENSION_ZIP = "extension.zip"
 EXTENSION_ZIP_SIG = "extension.zip.sig"
+EXTENSION_ZIP_UPLOAD = "extension_upload.zip"
 DEFAULT_TARGET_PATH = os.path.curdir
 DEFAULT_EXTENSION_DIR = os.path.join(os.path.curdir, "extension")
 DEFAULT_DEV_CERT = os.path.join(os.path.curdir, "developer.pem")
